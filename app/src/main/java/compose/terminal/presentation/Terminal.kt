@@ -23,7 +23,7 @@ fun Terminal(bars: List<Bar>) {
     var visibleBarsCount by remember {
         mutableIntStateOf(START_VISIBLE_BARS_COUNT)
     }
-    val transformableState = TransformableState { zoomChange, panChange, rotationChange ->
+    val transformableState = TransformableState { zoomChange, _, _ ->
         val zoomVal = (visibleBarsCount / zoomChange).roundToInt()
         visibleBarsCount = zoomVal.coerceIn(VISIBLE_BARS_MIN_VALUE, bars.size)
     }
