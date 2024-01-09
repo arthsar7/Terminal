@@ -1,7 +1,10 @@
 package compose.terminal.presentation
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import compose.terminal.data.Bar
 
 private const val START_VISIBLE_BARS_COUNT = 100
@@ -36,5 +39,12 @@ data class TerminalState(
                 )
             }
         )
+    }
+}
+
+@Composable
+fun rememberTerminalState(bars: List<Bar>): MutableState<TerminalState> {
+    return rememberSaveable(saver = TerminalState.Saver) {
+        mutableStateOf(TerminalState(bars))
     }
 }
