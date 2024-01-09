@@ -15,9 +15,12 @@ class MainActivity : ComponentActivity() {
             val screenState = viewModel.state.collectAsState()
             when (val state = screenState.value) {
                 is TerminalScreenState.Content -> {
-
+                    Terminal(bars = state.bars)
+                    Log.d("TAG", "onCreate: ${state.bars}")
                 }
-                is TerminalScreenState.Error -> Log.d("TAG", "onCreate: ${state.throwable}")
+                is TerminalScreenState.Error -> {
+                    Log.d("TAG", "onCreate: ${state.throwable}")
+                }
                 TerminalScreenState.Loading -> {
 
                 }
