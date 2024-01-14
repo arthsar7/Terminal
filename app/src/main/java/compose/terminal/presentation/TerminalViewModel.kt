@@ -21,10 +21,10 @@ class TerminalViewModel : ViewModel() {
     init {
         loadBars()
     }
-    private fun loadBars() {
+    fun loadBars(frame: TimeFrame = TimeFrame.H1) {
+        _state.value = TerminalScreenState.Loading
         viewModelScope.launch(exceptionHandler) {
-            _state.value = TerminalScreenState.Loading
-            _state.value = TerminalScreenState.Content(apiService.loadBars().bars)
+            _state.value = TerminalScreenState.Content(apiService.loadBars(frame.value).bars, frame)
         }
     }
 }

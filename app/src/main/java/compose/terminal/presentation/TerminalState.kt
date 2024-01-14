@@ -18,12 +18,17 @@ data class TerminalState(
     val scrolledBy: Float = 0f
 ) {
     val barWidth get() = terminalWidth / visibleBarsCount
-    private val visibleBars: List<Bar> get() {
-        return bars.subList(
-            fromIndex = (scrolledBy / barWidth).roundToInt().coerceAtLeast(0),
-            toIndex = ((scrolledBy / barWidth).roundToInt() + visibleBarsCount).coerceAtMost(bars.size)
-        )
-    }
+    private val visibleBars: List<Bar>
+        get() {
+            return try {
+                val startIndex = (scrolledBy / barWidth).roundToInt().coerceAtLeast(0)
+                val endIndex = (startIndex + visibleBarsCount).coerceAtMost(bars.size)
+                bars.subList(startIndex, endIndex)
+            }
+            catch (e: Exception) {
+                bars
+            }
+        }
     val visibleMax get() = visibleBars.maxOf { it.high }
     val visibleMin get() = visibleBars.minOf { it.low }
     val pxPerPoint get() =  terminalHeight / (visibleMax - visibleMin)
